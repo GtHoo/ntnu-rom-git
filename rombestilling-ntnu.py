@@ -7,36 +7,31 @@ def bestill():
 	url0 = 'https://tp.uio.no/ntnu/rombestilling/'
         url2 = 'https://tp.uio.no/ntnu/rombestilling/'
 
-
-
+#####################################################################################################
 	#For aa lagre cookies i variabel
-	data0 = {}
-	a = c.get(url0)
+		#laster inn sidne for aa skaffe cookies og token som brukes
+		#i post requesten for aa logge inn gjenom feide
+	data0 = {}			#Tom liste for post requesten
+	a = c.get(url0)			#Selve post requesten
 	SAML = c.cookies['SimpleSAMLSessionID']
 	PHPSE = c.cookies['PHPSESSID']
 	#print PHPSE
 
-	#for aa skaffe riktig token og url hentes dette fra en nettside
+		#for aa skaffe riktig token og url hentes dette fra en nettside
+		#Travaserer svaret fra server og henter ut token
 	tree = html.fromstring(a.content)
 	test = tree.xpath('//*[@id="languageSelector"]/input[2]/@value')
 	test2 = ''.join(test)
 	#print test2
 
 
-
-
-
-
-
-
-
-
-
+######################################################################################################
 
 	#skaffer lenden til teksten, forde den trengs for aa sende nummer paa lengden ogsaa
 	AUTESTATE = test2
-	ASLENGHT = len(AUTESTATE)
+	ASLENGHT = len(AUTESTATE)	#teller karakterer i token AUTESTATE
 
+		#url for innlogging som bruker token som er hentet tidligere
         url = 'https://idp.feide.no/simplesaml/module.php/feide/login.php?asLen=282&AuthState=_' + AUTESTATE + '&org=ntnu.no'
 
 	login_data = {
@@ -48,17 +43,17 @@ def bestill():
 		'feidename': 'USERNAME',
 		'password': 'PASSWORD'
 		}
-        #print c.cookies
-
 	svar = c.post(url, data=login_data) #loging in
 
-	#print svar.content
 
-	#pga ikke javascript
+#####################################################################################################
+	#print svar.content	#For debuging
+
+		#pga ikke javascript er i bruk i scriptet maa man innom en ekstra side for workaround
+		#token fra svaren man fikk paa forje request
 	tree2 = html.fromstring(svar.content)
         noJavascript = tree2.xpath('/html/body/form/input[2]/@value')
 	noJavascript = ''.join(noJavascript)
-	#print noJavascript
 
 
 	noJsData = {
@@ -71,12 +66,11 @@ def bestill():
 
 	#print nadaJS.content
 
-
-
+###################################################################################################
 
 
 	#for bestilling for aa faa tokenrb
-	#bestill
+		#Requeste en side med sok paa rom for aa faa token som brukes paa selve bestillingen
         beforebestill = {
                 'start': '08:00',
                 'size': '5',
@@ -98,11 +92,12 @@ def bestill():
 	token = ''.join(token)
 	#print token
 
-
+#################################################################################################
 
 
 
 	#bestill
+		#Selve bestillingen og de parametere man trenger
         bestill = {
 		'name': "",
 		'note': "",
@@ -122,8 +117,7 @@ def bestill():
 	}
         r = c.post(url2, data=bestill)      #Sending bestill
         svar = c.post(url2, data=bestill)      #Sending bestill
-	print svar.content
+	#print svar.content	"brukes for debug
 
-	#r = c.get(url)
 bestill()
 

@@ -14,7 +14,7 @@ Filbanen til denne filen spesifiseres i skriptet.
 
 TODO:
 
-- [ ] Brukernavn og passord i egen fil
-- [ ] Legge in lettere valg av rom
-- [ ] Legge inn automatisk tid 2 uker frem i tid
-- [ ] Skjekk om rommet er ledig
+- [ x ] Brukernavn og passord i egen fil
+- [ x ] Legge in lettere valg av rom
+- [ x ] Legge inn automatisk tid 2 uker frem i tid
+- [ ] Skjekk om rommet er ledig, og hvis ikke, velg annet rom

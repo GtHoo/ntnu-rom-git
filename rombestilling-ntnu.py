@@ -1,4 +1,22 @@
-#Maa finne ut hvordan man bruker eksisterende cookies
+#Skript for automatisk bestilling av rom 2 uker frem i tid. Tiden da nye rom blir lagt ut
+#Skriptet er for tp.uio.no/ntnu
+#
+#Lokasjonesvariabelen for Gjovik er:
+#	area=50000
+#
+#Bygningskodene er som folger:		#Kan finnes ut gjennom tp.uio.no/ntnu i kildekoden
+#	Ametyst : 501
+#	Beryll 	: 504
+#	Gneis	: 503
+#	Helvin	: 505
+#	Kobolt	: 502
+#	Smaragd	: 510
+#
+#Lokasjone og rom er sammenslaaing av bygg og rom. Eksempel : 502K112, for k bygget med rom k112
+#
+romogbygg = '502K112'		#Bestemmer bygg og rom
+
+
 from lxml import html
 import requests
 import ConfigParser	#For bruker og pass lesing fra fil
@@ -6,6 +24,21 @@ config = ConfigParser.RawConfigParser()
 config.read('login.cfg')	#Henter passord og brukernavn fra fil. Her defineres lokasjonen
 user = config.get('section1', 'user')
 passw = config.get('section1', 'pass')
+
+
+
+####################################################################################################
+#Skaffer datoen to uker frem i tid
+import datetime
+from datetime import timedelta
+
+now = datetime.datetime.now()		#For naatiden
+diff = datetime.timedelta(days=14)	#legger til 14 dager aka 2 uker
+future = now + diff			#Lager datoen som er om 2 uker
+
+bestillingsdato = future.strftime("%Y-%m-%d")	#Lagrer det i riktig tidsformat
+
+###################################################################################################
 
 
 
@@ -84,10 +117,10 @@ def bestill():
                 'size': '5',
                 'roomtype': 'NONE',
                 'duration': '01:00',
-                'area': '50000',
-                'room[]': '502k112',
-                'building': "502",	#k
-                'preset_date': '2018-02-28',
+                'area': '50000',	#Spesifiserer Gjovik
+                #'room[]': '502k112',	#Byggning og rom
+                #'building': "502",	#k bygget
+                'preset_date': bestillingsdato,
                 'exam': "",
 		'submitall': 'Bestill'
         }
@@ -114,13 +147,13 @@ def bestill():
 		'size': '5',
 		'roomtype': 'NONE',
 		'duration': '01:00',
-		'area': '50000',
-		'room[]': '502K112',
-		'building': "502",
-		'preset_day': 'WED',
-		'preset_date': '2018-02-28',
+		'area': '50000',	#Spesifiserer Gjovik
+		'room[]': romogbygg,	#Spesifiserer bygg og rom
+		#'building': "502",	#Skript fungerer uten   #Spesifiserer bygg
+		#'preset_day': 'WED',	#Skript fungerer uten
+		'preset_date': bestillingsdato,
 		'exam': "",
-		'dates[]': '2018-02-28',
+		'dates[]': bestillingsdato,
 		'tokenrb': token,
 	}
         r = c.post(url2, data=bestill)      #Sending bestill

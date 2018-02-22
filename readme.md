@@ -3,6 +3,14 @@ For å kjøre scriptet:
 python rombestilling-ntnu.py
 ```
 
+Legg inn brukernavn og pass i filen "login.cfg" med innholdet:
+```bash
+[section1]
+user = test1
+pass = test2
+```
+Filbanen til denne filen spesifiseres i skriptet.
+
 
 TODO:
 

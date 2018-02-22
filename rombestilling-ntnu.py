@@ -15,7 +15,9 @@
 #Lokasjone og rom er sammenslaaing av bygg og rom. Eksempel : 502K112, for k bygget med rom k112
 #
 romogbygg = '502K112'		#Bestemmer bygg og rom
-
+starttid = '08:00'		#Klokkeslettformatet : 08:00
+varigheten = '01:00'		#Varigheten. Format som klokka, men er antall timer og min som skal leies
+				#Eksempel er format for 1 timer er : 01:00
 
 from lxml import html
 import requests
@@ -113,10 +115,10 @@ def bestill():
 	#for bestilling for aa faa tokenrb
 		#Requeste en side med sok paa rom for aa faa token som brukes paa selve bestillingen
         beforebestill = {
-                'start': '08:00',
+                'start': starttid,	#Naar bestillingen starter
                 'size': '5',
                 'roomtype': 'NONE',
-                'duration': '01:00',
+                'duration': varigheten,	#Hvor lenge man skal ha rommet. Starter fra start
                 'area': '50000',	#Spesifiserer Gjovik
                 #'room[]': '502k112',	#Byggning og rom
                 #'building': "502",	#k bygget
@@ -143,10 +145,10 @@ def bestill():
 		'name': "",
 		'note': "",
 		'confirmed': 'true',
-		'start': '08:00',
+		'start': starttid,	#Naar tiden paa rommet starter
 		'size': '5',
 		'roomtype': 'NONE',
-		'duration': '01:00',
+		'duration': varigheten,	#Hvor lenge man har rommet.
 		'area': '50000',	#Spesifiserer Gjovik
 		'room[]': romogbygg,	#Spesifiserer bygg og rom
 		#'building': "502",	#Skript fungerer uten   #Spesifiserer bygg

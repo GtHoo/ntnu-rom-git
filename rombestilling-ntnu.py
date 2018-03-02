@@ -23,7 +23,7 @@ from lxml import html
 import requests
 import ConfigParser	#For bruker og pass lesing fra fil
 config = ConfigParser.RawConfigParser()
-config.read('login.cfg')	#Henter passord og brukernavn fra fil. Her defineres lokasjonen
+config.read('.login.cfg')	#Henter passord og brukernavn fra fil. Her defineres lokasjonen
 user = config.get('section1', 'user')
 passw = config.get('section1', 'pass')
 
@@ -160,7 +160,7 @@ def bestill():
 	}
         r = c.post(url2, data=bestill)      #Sending bestill
         svar = c.post(url2, data=bestill)      #Sending bestill
-	#print svar.content	"brukes for debug
+	print svar.content	#brukes for debug
 bestill()
 
 

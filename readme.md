@@ -1,3 +1,7 @@
+Dette skriptet er for å booke rom på ntnu (gjøvik) gjennom tp.uio.no 
+Det kan hende det vil fungere på andre lokasjoner, men dette er ikke testet.
+
+
 For å kjøre scriptet:
 ```bash
 python rombestilling-ntnu.py
